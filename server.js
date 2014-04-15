@@ -4,17 +4,17 @@
 
 (function () {
     var express = require('express');
+    var Router = require('./routers/router');
 
     var app = express();
+    var router = new Router();
 
     app.set('views', './templates');
     app.set('view engine', 'ejs');
 
-    app.get('/', function (req, res) {
-        res.render('index', {
+    app.use(express.static(__dirname + '/public'));
 
-        });
-    });
+    app.get('/', router.showRoot);
 
     //TODO: config file
     app.listen(8080);
