@@ -1,0 +1,9 @@
+{
+    "name": "bomberman-game",
+    "version": "0.1.0",
+    "dependencies": {
+        "express": "3.5.1",
+        "ejs": "1.0.0"
+    }
+
+}
