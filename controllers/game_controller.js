@@ -44,7 +44,7 @@ GameController.prototype.makePlayerAction = function (params) {
         //TODO: check if move is possible
         player.move(params.action);
     }
-
+    return player;
 };
 GameController.prototype.getPlayerById = function (id) {
     var player = null;

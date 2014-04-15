@@ -7,7 +7,7 @@
     var Router = require('./routers/router');
 
     var app = express();
-    var router = new Router();
+    var router = new Router(app);
 
     app.set('views', './templates');
     app.set('view engine', 'ejs');

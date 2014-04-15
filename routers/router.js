@@ -4,11 +4,11 @@
 
 var Broadcaster = require('../broadcasters/broadcaster');
 
-function Router () {
-
+function Router (server) {
+    this.broadcaster = new Broadcaster(server);
 }
 Router.prototype.showRoot = function (req, res) {
-    var broadcaster = new Broadcaster();
+
     res.render('index', {
 
     });
