@@ -7,6 +7,11 @@
     $('document').ready(function () {
         //so BADASS
         console.log('console.log();');
+
+        var socket = io.connect();
+        socket.on('init', function (data) {
+            console.log(data);
+        });
     });
 
 })(jQuery);

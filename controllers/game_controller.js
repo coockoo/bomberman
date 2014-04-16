@@ -2,9 +2,9 @@
  * Created by coockoo on 4/15/14.
  */
 
-var Player = require('models/player');
-var Field = require('models/field');
-var Block = require('models/block');
+var Player = require('../models/player');
+var Field = require('../models/field');
+var Block = require('../models/block');
 
 function GameController () {
     this.field = new Field({
