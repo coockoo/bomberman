@@ -1,9 +1,12 @@
 
-var GameController = function() {
+var GameController = function(params) {
     this.field = null;
     this.player = null;
     this.enemies = [];
     this.view = null;
+    this.keyTimer = null;
+    this.keyHandler = null;
+    this.sendActionCallback = params.sendActionCallback || null;
 };
 
 GameController.prototype.init = function(params) {
@@ -13,6 +16,13 @@ GameController.prototype.init = function(params) {
     for (var enemy in params.enemies) {
         this.addPlayer(enemy);
     }
+    this.keyHandler = new KeyHandler();
+    this.keyTimer = setInterval(function () {
+        var action = this.keyHandler.getCurrentAction();
+        if (action.length != 0) {
+            this.sendActionCallback && this.sendActionCallback(action);
+        }
+    }.bind(this), 1000 / 30);
 };
 
 GameController.prototype.addPlayer = function(player) {
