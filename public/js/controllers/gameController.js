@@ -12,13 +12,15 @@ var GameController = function(params) {
 GameController.prototype.init = function(params) {
     this.field = new Field(params.field);
     this.player = new Player(params.player);
-    for (var enemy in params.enemies) {
-        this.addPlayer(enemy);
+    for (var i = 0; i < params.enemies.length; ++i) {
+        this.addPlayer(params.enemies[i]);
     }
     this.view = new View();
+    var players =  this.enemies.slice(0);
+    players.push(this.player);
     this.view.init({
         field: this.field,
-        players: this.enemies.slice(0).push(this.player)
+        players: players
     });
     this.keyHandler = new KeyHandler();
     this.keyTimer = setInterval(function () {
@@ -62,6 +64,7 @@ GameController.prototype.makePlayerAction = function(player) {
             }
         }
     }
+    this.view.updatePlayer(playerToUpdate);
     return playerToUpdate;
 };
 
