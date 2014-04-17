@@ -34,3 +34,11 @@ Player.prototype.getHeight = function () {
 Player.prototype.getSpeed = function () {
     return this.speed;
 };
+
+Player.prototype.update = function (player) {
+    this.x = player.x;
+    this.y = player.y;
+    this.speed = player.speed;
+    return this;
+
+};

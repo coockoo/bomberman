@@ -1,7 +1,7 @@
 var View = function() {
     this.fieldView = null;
     this.playerViews = [];
-}
+};
 
 View.prototype.init = function (params) {
     this.fieldView = new FieldView(params.field);
@@ -12,5 +12,5 @@ View.prototype.init = function (params) {
             h : params.field.getHeight()
         }));
     }
-}
+};
 

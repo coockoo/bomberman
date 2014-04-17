@@ -12,10 +12,14 @@ var GameController = function(params) {
 GameController.prototype.init = function(params) {
     this.field = new Field(params.field);
     this.player = new Player(params.player);
-    this.view = new View();
     for (var enemy in params.enemies) {
         this.addPlayer(enemy);
     }
+    this.view = new View();
+    this.view.init({
+        field: this.field,
+        players: this.enemies.slice(0).push(this.player)
+    });
     this.keyHandler = new KeyHandler();
     this.keyTimer = setInterval(function () {
         var action = this.keyHandler.getCurrentAction();
@@ -29,7 +33,8 @@ GameController.prototype.init = function(params) {
 };
 
 GameController.prototype.addPlayer = function(player) {
-    this.enemies.push(new Player(player));
+    var newPlayer = new Player(player);
+    this.enemies.push(newPlayer);
 };
 
 GameController.prototype.removePlayer = function(player) {

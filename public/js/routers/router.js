@@ -24,14 +24,13 @@ Router.prototype.init = function (data) {
 };
 Router.prototype.addPlayer = function (data) {
     console.log("Adding player", data);
-    this.gameController.addPlayer(data);
+    this.gameController.addPlayer(JSON.parse(data));
 };
 Router.prototype.makePlayerAction = function (data) {
-    console.log("Player action", data);
-    this.gameController.makePlayerAction(data);
+    var dataObj = JSON.parse(data);
+    this.gameController.makePlayerAction(dataObj);
 };
 Router.prototype.sendAction = function (action) {
-    console.log('Sending action: ', action);
     this.socket.emit('action', JSON.stringify(action));
 
 

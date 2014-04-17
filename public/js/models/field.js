@@ -7,3 +7,12 @@ function Field (field) {
     this.h = field.h || 0;
     this.blocks = field.blocks || [];
 }
+Field.prototype.getWidth = function () {
+    return this.w;
+};
+Field.prototype.getHeight = function () {
+    return this.h;
+};
+Field.prototype.getBlocks = function () {
+    return this.blocks;
+};
