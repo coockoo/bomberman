@@ -12,15 +12,16 @@ function Broadcaster (server) {
 
     this.io.sockets.on('connection', function (socket) {
         var data = self.controller.addPlayer();
-        socket.broadcast.emit('add player', data.player);
-        socket.emit('init', data);
+        socket.broadcast.emit('add player', JSON.stringify(data.player));
+        socket.emit('init', JSON.stringify(data));
         socket.on("action", self.onAction);
     });
 
     this.onAction = function (params) {
-        var player = this.controller.makePlayerAction(params);
-        this.io.sockets.emit("action", player);
-    }
+        var paramsObj = JSON.parse(params);
+        var player = this.controller.makePlayerAction(paramsObj);
+        this.io.sockets.emit("action", JSON.stringify(player));
+    }.bind(this);
 }
 
 

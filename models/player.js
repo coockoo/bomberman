@@ -23,14 +23,17 @@ Player.prototype.setPosition = function (position) {
     return this;
 };
 Player.prototype.move = function (action) {
-    if ('l' == action) {
-        this.x -= this.speed;
-    } else if ('r' == action) {
-        this.x += this.speed;
-    } else if ('u' == action) {
-        this.y -= this.speed;
-    } else if ('d' == action) {
-        this.y += this.speed;
+    var actionArr = action.split('');
+    for (var i = 0; i < actionArr.length; ++i) {
+        if ('l' == actionArr[i]) {
+            this.x -= this.speed;
+        } else if ('r' == actionArr[i]) {
+            this.x += this.speed;
+        } else if ('u' == actionArr[i]) {
+            this.y -= this.speed;
+        } else if ('d' == actionArr[i]) {
+            this.y += this.speed;
+        }
     }
 };
 

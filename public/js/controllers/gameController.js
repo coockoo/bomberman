@@ -20,7 +20,10 @@ GameController.prototype.init = function(params) {
     this.keyTimer = setInterval(function () {
         var action = this.keyHandler.getCurrentAction();
         if (action.length != 0) {
-            this.sendActionCallback && this.sendActionCallback(action);
+            this.sendActionCallback && this.sendActionCallback({
+                action: action,
+                id: this.player.getId()
+            });
         }
     }.bind(this), 1000 / 30);
 };

@@ -48,6 +48,7 @@ GameController.prototype.makePlayerAction = function (params) {
 };
 GameController.prototype.getPlayerById = function (id) {
     var player = null;
+
     for (var i = 0; i < this.players.length; ++i) {
         if (this.players[i].getId() == id) {
             player = this.players[i];
