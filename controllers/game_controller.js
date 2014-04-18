@@ -3,16 +3,13 @@
  */
 
 var Player = require('../models/player');
-var Field = require('../models/field');
-var Block = require('../models/block');
+var FieldProvider = require('../resource_providers/field_provider');
 
 function GameController () {
-    this.field = new Field({
-        w: 400,
-        h: 400,
-        blocks: [new Block({x:40,y:40}), new Block({x:40,y:80})]
-    });
+    this.fieldProvider = new FieldProvider();
+    this.field = this.fieldProvider.getField("field_01");
     this.players = [];
+
     //TODO: add field provider
 }
 GameController.prototype.addPlayer = function () {

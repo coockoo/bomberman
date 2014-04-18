@@ -31,7 +31,6 @@ var PlayerView = function(params) {
         drawPlayer(this.ctx, this.player);
     };
     PlayerView.prototype.update = function (player) {
-        console.log($('#'+ this.getId()));
         this.ctx.clearRect(0,0,this.w,this.h);
 
         drawPlayer(this.ctx, player);
