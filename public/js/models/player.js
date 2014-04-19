@@ -42,3 +42,17 @@ Player.prototype.update = function (player) {
     return this;
 
 };
+Player.prototype.move = function (action) {
+    var actionArr = action.split('');
+    for (var i = 0; i < actionArr.length; ++i) {
+        if ('l' == actionArr[i]) {
+            this.x -= this.speed;
+        } else if ('r' == actionArr[i]) {
+            this.x += this.speed;
+        } else if ('u' == actionArr[i]) {
+            this.y -= this.speed;
+        } else if ('d' == actionArr[i]) {
+            this.y += this.speed;
+        }
+    }
+};

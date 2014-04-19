@@ -1,12 +1,12 @@
-
 var GameController = function(params) {
     this.field = null;
     this.player = null;
     this.enemies = [];
     this.view = null;
-    this.keyTimer = null;
     this.keyHandler = null;
+    this.keyTimer = null;
     this.sendActionCallback = params.sendActionCallback || null;
+    this.actions = [];
 };
 
 GameController.prototype.init = function(params) {
@@ -29,6 +29,11 @@ GameController.prototype.init = function(params) {
     this.keyTimer = setInterval(function () {
         var action = this.keyHandler.getCurrentAction();
         if (action.length != 0) {
+            this.player.move(action);
+            this.actions.push({
+                x: this.player.getX(),
+                y: this.player.getY()
+            });
             this.sendActionCallback && this.sendActionCallback({
                 action: action,
                 id: this.player.getId()
@@ -58,17 +63,28 @@ GameController.prototype.removePlayer = function(player) {
 GameController.prototype.makePlayerAction = function(player) {
     var playerToUpdate = null;
     if (player.id == this.player.getId()) {
-        playerToUpdate = this.player.update(player);
+        if (this.resolvePrediction(player)) {
+            playerToUpdate = this.player;
+        } else {
+            this.actions = [];
+            playerToUpdate = this.player.update(player);
+        }
     } else {
         for (var i = 0; i < this.enemies.length; ++i) {
             if (this.enemies[i].getId() == player.id) {
-                playerToUpdate = this.enemies[i];
-                playerToUpdate.update(player);
+                playerToUpdate = this.enemies[i].update(player);
                 break;
             }
         }
     }
-    this.view.updatePlayer(playerToUpdate);
+    if (playerToUpdate != null) {
+        this.view.updatePlayer(playerToUpdate);
+    }
     return playerToUpdate;
 };
 
+GameController.prototype.resolvePrediction = function (player) {
+    var lastAction = this.actions.shift();
+    return player.x == lastAction.x && player.y == lastAction.y;
+
+};

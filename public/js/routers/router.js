@@ -23,7 +23,6 @@ Router.prototype.init = function (data) {
     this.gameController.init(dataObj);
 };
 Router.prototype.addPlayer = function (data) {
-    console.log("Adding player", data);
     this.gameController.addPlayer(JSON.parse(data));
 };
 Router.prototype.makePlayerAction = function (data) {
