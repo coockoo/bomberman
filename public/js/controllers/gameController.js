@@ -10,18 +10,21 @@ var GameController = function(params) {
 };
 
 GameController.prototype.init = function(params) {
+
     this.field = new Field(params.field);
     this.player = new Player(params.player);
+
+    this.view = new View();
+    this.view.init({
+        field: this.field
+    });
+
+    this.view.addPlayer(this.player);
+
     for (var i = 0; i < params.enemies.length; ++i) {
         this.addPlayer(params.enemies[i]);
     }
-    this.view = new View();
-    var players =  this.enemies.slice(0);
-    players.push(this.player);
-    this.view.init({
-        field: this.field,
-        players: players
-    });
+
     this.keyHandler = new KeyHandler();
     this.keyTimer = setInterval(function () {
         var action = this.keyHandler.getCurrentAction();
@@ -37,6 +40,7 @@ GameController.prototype.init = function(params) {
 GameController.prototype.addPlayer = function(player) {
     var newPlayer = new Player(player);
     this.enemies.push(newPlayer);
+    this.view.addPlayer(newPlayer);
 };
 
 GameController.prototype.removePlayer = function(player) {

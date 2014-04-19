@@ -4,14 +4,19 @@ var View = function() {
 };
 
 View.prototype.init = function (params) {
+
     this.fieldView = new FieldView(params.field);
-    for (var i = 0; i < params.players.length; ++i) {
-        this.playerViews.push(new PlayerView({
-            player : params.players[i],
-            w : params.field.getWidth(),
-            h : params.field.getHeight()
-        }));
-    }
+
+    this.w = params.field.getWidth();
+    this.h = params.field.getHeight();
+
+};
+View.prototype.addPlayer = function (player) {
+    this.playerViews.push(new PlayerView({
+        player: player,
+        w: this.w,
+        h: this.h
+    }));
 };
 View.prototype.updatePlayer = function (player) {
     for (var i = 0; i < this.playerViews.length; ++i) {
