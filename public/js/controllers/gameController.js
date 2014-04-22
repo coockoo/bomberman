@@ -29,7 +29,9 @@ GameController.prototype.init = function(params) {
     this.keyTimer = setInterval(function () {
         var action = this.keyHandler.getCurrentAction();
         if (action.length != 0) {
+            //TODO: put here move resolve (possible or not). Collision detection
             this.player.move(action);
+            this.view.updatePlayer(this.player);
             this.actions.push({
                 x: this.player.getX(),
                 y: this.player.getY()

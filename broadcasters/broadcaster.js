@@ -16,18 +16,22 @@ function Broadcaster (server) {
         socket.emit('init', JSON.stringify(data));
         socket.set('playerId', data.player.getId());
 
-        socket.on('action', self.onAction);
+        socket.on('action', self.onAction.bind(this));
         socket.on('disconnect', function () {
             this.onDisconnect(socket);
         }.bind(this));
     }.bind(this));
 
-    this.onAction = function (params) {
+}
+
+Broadcaster.prototype.onAction = function (params) {
+    setTimeout(function () {
         var paramsObj = JSON.parse(params);
         var player = this.controller.makePlayerAction(paramsObj);
-        this.io.sockets.emit("action", JSON.stringify(player));
-    }.bind(this);
-}
+        this.io.sockets.emit('action', JSON.stringify(player));
+    }.bind(this), 500);
+};
+
 Broadcaster.prototype.onDisconnect = function (socket) {
     socket.get('playerId', function (err, id) {
         var player = this.controller.removePlayer(id);
