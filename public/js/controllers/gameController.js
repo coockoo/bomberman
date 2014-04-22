@@ -6,13 +6,17 @@ var GameController = function(params) {
     this.keyHandler = null;
     this.keyTimer = null;
     this.sendActionCallback = params.sendActionCallback || null;
-    this.actions = [];
+
+    this.predictionStorage = null;
+
 };
 
 GameController.prototype.init = function(params) {
 
     this.field = new Field(params.field);
     this.player = new Player(params.player);
+
+    this.predictionStorage = new PredictionStorage();
 
     this.view = new View();
     this.view.init({
@@ -26,19 +30,18 @@ GameController.prototype.init = function(params) {
     }
 
     this.keyHandler = new KeyHandler();
+    //TODO: clear timer
     this.keyTimer = setInterval(function () {
         var action = this.keyHandler.getCurrentAction();
         if (action.length != 0) {
             //TODO: put here move resolve (possible or not). Collision detection
             this.player.move(action);
             this.view.updatePlayer(this.player);
-            this.actions.push({
-                x: this.player.getX(),
-                y: this.player.getY()
-            });
+            var predictionState = this.predictionStorage.addState(this.player);
             this.sendActionCallback && this.sendActionCallback({
                 action: action,
-                id: this.player.getId()
+                playerId: this.player.getId(),
+                stateId: predictionState.id
             });
         }
     }.bind(this), 1000 / 30);
@@ -66,13 +69,13 @@ GameController.prototype.removePlayer = function(player) {
 };
 
 GameController.prototype.makePlayerAction = function(player) {
+
     var playerToUpdate = null;
+
     if (player.id == this.player.getId()) {
-        if (this.resolvePrediction(player)) {
-            playerToUpdate = this.player;
-        } else {
-            this.actions = [];
+        if (!this.predictionStorage.resolve(player)) {
             playerToUpdate = this.player.update(player);
+        } else {
         }
     } else {
         for (var i = 0; i < this.enemies.length; ++i) {
@@ -86,10 +89,4 @@ GameController.prototype.makePlayerAction = function(player) {
         this.view.updatePlayer(playerToUpdate);
     }
     return playerToUpdate;
-};
-
-GameController.prototype.resolvePrediction = function (player) {
-    var lastAction = this.actions.shift();
-    return player.x == lastAction.x && player.y == lastAction.y;
-
 };

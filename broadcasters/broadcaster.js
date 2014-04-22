@@ -5,18 +5,22 @@
 var Controller = require('../controllers/game_controller');
 
 function Broadcaster (server) {
-    var self = this;
     this.server = server;
     this.io = require('socket.io').listen(server);
     this.controller = new Controller();
 
+    // -- server state update timer
+    this.timeStepTimer = null;
+    // -- server update frequency
+    this.timeStep = 100;
+
     this.io.sockets.on('connection', function (socket) {
-        var data = self.controller.addPlayer();
+        var data = this.controller.addPlayer();
         socket.broadcast.emit('add player', JSON.stringify(data.player));
         socket.emit('init', JSON.stringify(data));
         socket.set('playerId', data.player.getId());
 
-        socket.on('action', self.onAction.bind(this));
+        socket.on('action', this.onAction.bind(this));
         socket.on('disconnect', function () {
             this.onDisconnect(socket);
         }.bind(this));

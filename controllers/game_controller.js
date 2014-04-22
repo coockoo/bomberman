@@ -36,11 +36,13 @@ GameController.prototype.removePlayer = function (id) {
     return player;
 };
 GameController.prototype.makePlayerAction = function (params) {
-    var player = this.getPlayerById(params.id);
+    var stateId = params['stateId'];
+    var player = this.getPlayerById(params['playerId']);
     if (player != null) {
         //TODO: check if move is possible
         player.move(params.action);
     }
+    player['stateId'] = stateId;
     return player;
 };
 GameController.prototype.getPlayerById = function (id) {
