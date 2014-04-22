@@ -29,7 +29,7 @@ GameController.prototype.removePlayer = function (id) {
     for (var i = 0; i < this.players.length; ++i) {
         if (this.players[i].getId() == id) {
             player = this.players[i];
-            this.player.splice(i, 1);
+            this.players.splice(i, 1);
             break;
         }
     }

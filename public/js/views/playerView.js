@@ -20,13 +20,13 @@ var PlayerView = function(params) {
         return this.player.getId();
     };
     PlayerView.prototype.draw = function() {
-        var $html = $('<canvas width=":w" height=":h" id=":id">Your browser does not support canvas.</canvas>'
+        this.$html = $('<canvas width=":w" height=":h" id=":id">Your browser does not support canvas.</canvas>'
             .replace(":w", this.w)
             .replace(":h", this.h)
             .replace(":id", this.player.getId())
         );
-        $(".container").append($html);
-        this.ctx = $html[0].getContext('2d');
+        $(".container").append(this.$html);
+        this.ctx = this.$html[0].getContext('2d');
 
         drawPlayer(this.ctx, this.player);
     };
@@ -34,6 +34,9 @@ var PlayerView = function(params) {
         this.ctx.clearRect(0,0,this.w,this.h);
 
         drawPlayer(this.ctx, player);
-    }
+    };
+    PlayerView.prototype.remove = function () {
+        this.$html.remove();
+    };
 
 })();

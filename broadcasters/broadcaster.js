@@ -14,8 +14,13 @@ function Broadcaster (server) {
         var data = self.controller.addPlayer();
         socket.broadcast.emit('add player', JSON.stringify(data.player));
         socket.emit('init', JSON.stringify(data));
-        socket.on("action", self.onAction);
-    });
+        socket.set('playerId', data.player.getId());
+
+        socket.on('action', self.onAction);
+        socket.on('disconnect', function () {
+            this.onDisconnect(socket);
+        }.bind(this));
+    }.bind(this));
 
     this.onAction = function (params) {
         var paramsObj = JSON.parse(params);
@@ -23,6 +28,14 @@ function Broadcaster (server) {
         this.io.sockets.emit("action", JSON.stringify(player));
     }.bind(this);
 }
+Broadcaster.prototype.onDisconnect = function (socket) {
+    socket.get('playerId', function (err, id) {
+        var player = this.controller.removePlayer(id);
+        socket.broadcast.emit('remove player', JSON.stringify(player));
+
+    }.bind(this));
+
+};
 
 
 module.exports = Broadcaster;

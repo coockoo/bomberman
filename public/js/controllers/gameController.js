@@ -57,6 +57,9 @@ GameController.prototype.removePlayer = function(player) {
             break;
         }
     }
+    if (enemy != null) {
+        this.view.removePlayer(enemy);
+    }
     return enemy;
 };
 

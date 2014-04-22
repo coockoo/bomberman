@@ -10,6 +10,7 @@ function Router () {
     this.socket.on('init', this.init.bind(this));
     this.socket.on('add player', this.addPlayer.bind(this));
     this.socket.on('action', this.makePlayerAction.bind(this));
+    this.socket.on('remove player', this.removePlayer.bind(this));
 
 }
 Router.prototype.init = function (data) {
@@ -31,6 +32,9 @@ Router.prototype.makePlayerAction = function (data) {
 };
 Router.prototype.sendAction = function (action) {
     this.socket.emit('action', JSON.stringify(action));
-
+};
+Router.prototype.removePlayer = function (player) {
+    var playerObj = JSON.parse(player);
+    this.gameController.removePlayer(playerObj)
 
 };
