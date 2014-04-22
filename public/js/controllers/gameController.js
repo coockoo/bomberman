@@ -20,31 +20,36 @@ GameController.prototype.init = function(params) {
 
     this.view = new View();
     this.view.init({
-        field: this.field
+        field: this.field,
+        success: function () {
+
+            this.view.addPlayer(this.player);
+
+            for (var i = 0; i < params.enemies.length; ++i) {
+                this.addPlayer(params.enemies[i]);
+            }
+
+            this.keyHandler = new KeyHandler();
+            //TODO: clear timer
+            this.keyTimer = setInterval(function () {
+                var action = this.keyHandler.getCurrentAction();
+                if (action.length != 0) {
+                    //TODO: put here move resolve (possible or not). Collision detection
+                    this.player.move(action);
+                    this.view.updatePlayer(this.player);
+                    var predictionState = this.predictionStorage.addState(this.player);
+                    this.sendActionCallback && this.sendActionCallback({
+                        action: action,
+                        playerId: this.player.getId(),
+                        stateId: predictionState.id
+                    });
+                }
+            }.bind(this), 1000 / 30);
+
+        }.bind(this)
+
     });
 
-    this.view.addPlayer(this.player);
-
-    for (var i = 0; i < params.enemies.length; ++i) {
-        this.addPlayer(params.enemies[i]);
-    }
-
-    this.keyHandler = new KeyHandler();
-    //TODO: clear timer
-    this.keyTimer = setInterval(function () {
-        var action = this.keyHandler.getCurrentAction();
-        if (action.length != 0) {
-            //TODO: put here move resolve (possible or not). Collision detection
-            this.player.move(action);
-            this.view.updatePlayer(this.player);
-            var predictionState = this.predictionStorage.addState(this.player);
-            this.sendActionCallback && this.sendActionCallback({
-                action: action,
-                playerId: this.player.getId(),
-                stateId: predictionState.id
-            });
-        }
-    }.bind(this), 1000 / 30);
 };
 
 GameController.prototype.addPlayer = function(player) {

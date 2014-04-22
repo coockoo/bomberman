@@ -1,14 +1,28 @@
 var View = function() {
     this.fieldView = null;
     this.playerViews = [];
+    this.imageRepository = new ImageRepository();
 };
 
 View.prototype.init = function (params) {
 
-    this.fieldView = new FieldView(params.field);
 
-    this.w = params.field.getWidth();
-    this.h = params.field.getHeight();
+    this.imageRepository.load({
+        success: function () {
+
+            this.fieldView = new FieldView(this.imageRepository, params.field);
+
+            this.w = params.field.getWidth();
+            this.h = params.field.getHeight();
+
+            params.success && params.success();
+
+
+        }.bind(this)
+    });
+
+
+    //TODO: image load progressbar
 
 };
 View.prototype.addPlayer = function (player) {
