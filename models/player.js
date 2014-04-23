@@ -37,6 +37,7 @@ Player.prototype.move = function (action) {
             this.y += this.speed;
         }
     }
+    return this;
 };
 
 Player.prototype.getWidth = function() {

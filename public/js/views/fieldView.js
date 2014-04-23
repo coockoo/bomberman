@@ -38,6 +38,15 @@ var FieldView =
         };
 
         this.draw();
+
+        this.addBomb = function (bomb) {
+            console.log('adding bomb: ', bomb);
+            this.ctx.beginPath();
+            this.ctx.fillStyle = '#8ED600';
+            this.ctx.fillRect(bomb.getX(), bomb.getY(), 40,40);
+            this.ctx.closePath();
+
+        }
     };
 
 

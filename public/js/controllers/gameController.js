@@ -126,25 +126,33 @@ GameController.prototype.removePlayer = function(player) {
     return enemy;
 };
 
-GameController.prototype.makePlayerAction = function(player) {
+GameController.prototype.makePlayerAction = function(data) {
 
     var playerToUpdate = null;
-
-    if (player.id == this.player.getId()) {
-        if (!this.predictionStorage.resolve(player)) {
-            playerToUpdate = this.player.update(player);
+    var player = data.player;
+    if (player != null) {
+        if (player.id == this.player.getId()) {
+            if (!this.predictionStorage.resolve(player)) {
+                playerToUpdate = this.player.update(player);
+            } else {
+            }
         } else {
-        }
-    } else {
-        for (var i = 0; i < this.enemies.length; ++i) {
-            if (this.enemies[i].getId() == player.id) {
-                playerToUpdate = this.enemies[i].update(player);
-                break;
+            for (var i = 0; i < this.enemies.length; ++i) {
+                if (this.enemies[i].getId() == player.id) {
+                    playerToUpdate = this.enemies[i].update(player);
+                    break;
+                }
             }
         }
+        if (playerToUpdate != null) {
+            this.view.updatePlayer(playerToUpdate);
+        }
     }
-    if (playerToUpdate != null) {
-        this.view.updatePlayer(playerToUpdate);
+
+    if (data.bomb != null) {
+        this.view.addBomb(new Bomb(data.bomb));
     }
+
+    //TODO: what to do with return?
     return playerToUpdate;
 };

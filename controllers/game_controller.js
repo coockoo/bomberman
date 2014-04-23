@@ -36,6 +36,10 @@ GameController.prototype.removePlayer = function (id) {
     return player;
 };
 GameController.prototype.makePlayerAction = function (params) {
+    var result = {
+        player: null,
+        bomb: null
+    };
     var stateId = params['stateId'];
     var player = this.getPlayerById(params['playerId']);
     if (player != null) {
@@ -48,16 +52,17 @@ GameController.prototype.makePlayerAction = function (params) {
                 //TODO: too many bombs
                 if (this.canPlaceBomb(player, bomb)) {
                     this.bombs.push(bomb);
+                    result.bomb = bomb.toJSON();
                 }
             } else {
                 if(!this.isColliding(player, actions[i])) {
-                    player.move(actions[i]);
+                    result.player = player.move(actions[i]);
                 }
             }
         }
     }
     player['stateId'] = stateId;
-    return player;
+    return result;
 };
 
 GameController.prototype.isColliding = function(player, action) {
@@ -127,7 +132,7 @@ GameController.prototype.canPlaceBomb= function (player, bomb) {
             return false;
         }
     }
-    //TODO: Is not to freequent
+    //TODO: Is not to frequent
     return true;
 
 

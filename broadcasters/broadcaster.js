@@ -32,6 +32,7 @@ Broadcaster.prototype.onAction = function (params) {
     setTimeout(function () {
         var paramsObj = JSON.parse(params);
         var player = this.controller.makePlayerAction(paramsObj);
+        console.log('sending: ', player);
         this.io.sockets.emit('action', JSON.stringify(player));
     }.bind(this), 500);
 };

@@ -49,4 +49,7 @@ View.prototype.updatePlayer = function (player) {
         }
     }
 };
+View.prototype.addBomb = function (bomb) {
+    this.fieldView.addBomb(bomb);
+};
 

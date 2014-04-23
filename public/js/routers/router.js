@@ -28,6 +28,7 @@ Router.prototype.addPlayer = function (data) {
 };
 Router.prototype.makePlayerAction = function (data) {
     var dataObj = JSON.parse(data);
+    console.log(dataObj);
     this.gameController.makePlayerAction(dataObj);
 };
 Router.prototype.sendAction = function (action) {
