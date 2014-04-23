@@ -11,6 +11,7 @@ var ImageRepository = (function () {
             var loaded = 0;
             var total = 1;
             this.images = {};
+
             this.images['block_breakable'] = new Image();
             this.images['block_breakable'].src = 'images/block_breakable.png';
             this.images['block_breakable'].onload = onLoad;

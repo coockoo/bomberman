@@ -13,12 +13,11 @@ var FieldView =
         this.field = field;
 
         function drawBlocks (ctx, blocks) {
+            ctx.beginPath();
             for (var i = 0; i < blocks.length; ++i) {
-                ctx.beginPath();
                 ctx.drawImage(imageRepository.getImageById('block_breakable'), blocks[i].x, blocks[i].y, blocks[i].w, blocks[i].h);
-                ctx.strokeRect(blocks[i].x, blocks[i].y, blocks[i].w, blocks[i].h);
-                ctx.closePath();
             }
+            ctx.closePath();
         }
 
         this.draw = function() {

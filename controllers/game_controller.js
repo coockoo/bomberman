@@ -40,8 +40,11 @@ GameController.prototype.makePlayerAction = function (params) {
     var player = this.getPlayerById(params['playerId']);
     if (player != null) {
         //TODO: check if move is possible
-        if (!this.isColliding(player, params.action)) {
-            player.move(params.action);
+        var actions = params.action.split('');
+        for (var i = 0; i < actions.length; ++i) {
+            if(!this.isColliding(player, actions[i])) {
+                player.move(actions[i]);
+            }
         }
     }
     player['stateId'] = stateId;
