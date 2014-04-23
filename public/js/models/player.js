@@ -40,9 +40,9 @@ Player.prototype.update = function (player) {
     this.y = player.y;
     this.speed = player.speed;
     return this;
-
 };
 Player.prototype.move = function (action) {
+    console.log("in move");
     var actionArr = action.split('');
     for (var i = 0; i < actionArr.length; ++i) {
         if ('l' == actionArr[i]) {

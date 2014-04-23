@@ -40,11 +40,57 @@ GameController.prototype.makePlayerAction = function (params) {
     var player = this.getPlayerById(params['playerId']);
     if (player != null) {
         //TODO: check if move is possible
-        player.move(params.action);
+        if (!this.isColliding(player, params.action)) {
+            player.move(params.action);
+        }
     }
     player['stateId'] = stateId;
     return player;
 };
+GameController.prototype.isColliding = function(player, action) {
+    var collides = false;
+    var xToCheck = player.x;
+    var yToCheck = player.y;
+    var fieldW = this.field.w;
+    var fieldH = this.field.h;
+    switch(action) {
+        case "l" : {
+            xToCheck = player.getX() - player.speed;
+            break;
+        }
+        case "r" : {
+            xToCheck = player.getX() + player.speed;
+            break;
+        }
+        case "u" : {
+            yToCheck = player.getY() - player.speed;
+            break;
+        }
+        case "d" : {
+            yToCheck = player.getY() + player.speed;
+            break;
+        }
+    }
+    //collision with field edges
+    if ((xToCheck < 0) || (yToCheck < 0) || (xToCheck + player.getWidth() > fieldW) || (yToCheck + player.getHeight() > fieldH)) {
+        collides = true;
+        return collides;
+    }
+    //collision with blocks
+    for (var i = 0; i < this.field.blocks.length; i++) {
+        var blockH = this.field.blocks[i].getHeight();
+        var blockW = this.field.blocks[i].getWidth();
+        var blockX = this.field.blocks[i].getX();
+        var blockY = this.field.blocks[i].getY();
+        if( (
+            /*point 1*/((xToCheck + player.w > blockX) && ((xToCheck + player.w) < (blockX + blockW)) && ((yToCheck + player.h > blockY) && (yToCheck < blockY + blockH))) ||
+            /*point 2*/(((xToCheck > blockX) && ((xToCheck) < (blockX + blockW))) && ((yToCheck + player.h > blockY) && (yToCheck < blockY + blockH))))) {
+            collides = true;
+            return collides;
+        }
+    }
+    return collides;
+}
 GameController.prototype.getPlayerById = function (id) {
     var player = null;
 

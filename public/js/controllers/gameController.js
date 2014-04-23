@@ -12,7 +12,7 @@ var GameController = function(params) {
 };
 
 GameController.prototype.init = function(params) {
-
+    var self = this;
     this.field = new Field(params.field);
     this.player = new Player(params.player);
 
@@ -35,14 +35,17 @@ GameController.prototype.init = function(params) {
                 var action = this.keyHandler.getCurrentAction();
                 if (action.length != 0) {
                     //TODO: put here move resolve (possible or not). Collision detection
-                    this.player.move(action);
-                    this.view.updatePlayer(this.player);
-                    var predictionState = this.predictionStorage.addState(this.player);
-                    this.sendActionCallback && this.sendActionCallback({
-                        action: action,
-                        playerId: this.player.getId(),
-                        stateId: predictionState.id
-                    });
+                    if (!self.collides(self.player, action)) {
+                        this.player.move(action);
+                        this.view.updatePlayer(this.player);
+                        var predictionState = this.predictionStorage.addState(this.player);
+                        this.sendActionCallback && this.sendActionCallback({
+                            action: action,
+                            playerId: this.player.getId(),
+                            stateId: predictionState.id
+                        });
+                    }
+
                 }
             }.bind(this), 1000 / 30);
 
@@ -51,6 +54,51 @@ GameController.prototype.init = function(params) {
     });
 
 };
+
+GameController.prototype.collides = function (player, action) {
+    var collides = false;
+    var xToCheck = player.x;
+    var yToCheck = player.y;
+    var fieldW = this.field.w;
+    var fieldH = this.field.h;
+    switch(action) {
+        case "l" : {
+            xToCheck = player.getX() - player.speed;
+            break;
+        }
+        case "r" : {
+            xToCheck = player.getX() + player.speed;
+            break;
+        }
+        case "u" : {
+            yToCheck = player.getY() - player.speed;
+            break;
+        }
+        case "d" : {
+            yToCheck = player.getY() + player.speed;
+            break;
+        }
+    }
+    //collision with field edges
+    if ((xToCheck < 0) || (yToCheck < 0) || (xToCheck + player.getWidth() > fieldW) || (yToCheck + player.getHeight() > fieldH)) {
+        collides = true;
+        return collides;
+    }
+    //collision with blocks
+    for (var i = 0; i < this.field.blocks.length; i++) {
+        var blockH = this.field.blocks[i].getHeight();
+        var blockW = this.field.blocks[i].getWidth();
+        var blockX = this.field.blocks[i].getX();
+        var blockY = this.field.blocks[i].getY();
+        if( (
+            /*point 1*/((xToCheck + player.w > blockX) && ((xToCheck + player.w) < (blockX + blockW)) && ((yToCheck + player.h > blockY) && (yToCheck < blockY + blockH))) ||
+            /*point 2*/(((xToCheck > blockX) && ((xToCheck) < (blockX + blockW))) && ((yToCheck + player.h > blockY) && (yToCheck < blockY + blockH))))) {
+            collides = true;
+            return collides;
+        }
+    }
+    return collides;
+}
 
 GameController.prototype.addPlayer = function(player) {
     var newPlayer = new Player(player);

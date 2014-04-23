@@ -8,6 +8,21 @@ function Block (block) {
     this.w = block.w || 40;
     this.h = block.h || 40;
 }
-//TODO: getters/setters
+
+Block.prototype.getWidth = function() {
+    return this.w;
+};
+
+Block.prototype.getHeight = function() {
+    return this.h;
+};
+
+Block.prototype.getX = function() {
+    return this.x;
+};
+
+Block.prototype.getY = function() {
+    return this.y;
+};
 
 module.exports = Block;

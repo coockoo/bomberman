@@ -37,6 +37,46 @@ Player.prototype.move = function (action) {
     }
 };
 
+Player.prototype.getWidth = function() {
+    return this.w;
+};
+
+Player.prototype.getHeight = function() {
+    return this.h;
+};
+
+Player.prototype.getX = function() {
+    return this.x;
+};
+
+Player.prototype.getY = function() {
+    return this.y;
+};
+
+Player.prototype.getSpeed = function() {
+    return this.speed;
+};
+
+Player.prototype.setWidth = function(width) {
+    this.w = width;
+};
+
+Player.prototype.setHeight = function(height) {
+    this.h = height;
+};
+
+Player.prototype.setX = function(x) {
+    this.x = x;
+};
+
+Player.prototype.setY = function(y) {
+    this.y = y;
+};
+
+Player.prototype.setSpeed = function(speed) {
+    this.speed = speed;
+};
+
 //TODO: getters/setters and other stuff;
 
 module.exports = Player;
