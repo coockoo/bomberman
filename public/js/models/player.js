@@ -42,7 +42,6 @@ Player.prototype.update = function (player) {
     return this;
 };
 Player.prototype.move = function (action) {
-    console.log("in move");
     var actionArr = action.split('');
     for (var i = 0; i < actionArr.length; ++i) {
         if ('l' == actionArr[i]) {

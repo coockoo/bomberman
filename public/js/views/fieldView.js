@@ -29,6 +29,11 @@ var FieldView =
             this.ctx = $html[0].getContext('2d');
             this.ctx.strokeRect(0,0, this.field.getWidth(), this.field.getHeight());
 
+            var pattern = this.ctx.createPattern(imageRepository.getImageById('background'), 'repeat');
+            this.ctx.rect(0,0,this.field.getWidth(), this.field.getHeight());
+            this.ctx.fillStyle = pattern;
+            this.ctx.fill();
+
             drawBlocks(this.ctx, this.field.getBlocks());
         };
 
