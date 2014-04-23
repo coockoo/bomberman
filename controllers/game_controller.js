@@ -9,8 +9,8 @@ function GameController () {
     this.fieldProvider = new FieldProvider();
     this.field = this.fieldProvider.getField("field_01");
     this.players = [];
+    this.bombs = [];
 
-    //TODO: add field provider
 }
 GameController.prototype.addPlayer = function () {
     var player = new Player({id: this.players.length + 1});
@@ -39,17 +39,27 @@ GameController.prototype.makePlayerAction = function (params) {
     var stateId = params['stateId'];
     var player = this.getPlayerById(params['playerId']);
     if (player != null) {
-        //TODO: check if move is possible
         var actions = params.action.split('');
         for (var i = 0; i < actions.length; ++i) {
-            if(!this.isColliding(player, actions[i])) {
-                player.move(actions[i]);
+            if (actions[i] == 's') {
+                var bomb = player.newBomb({
+                    timestamp: params['timestamp']
+                });
+                //TODO: too many bombs
+                if (this.canPlaceBomb(player, bomb)) {
+                    this.bombs.push(bomb);
+                }
+            } else {
+                if(!this.isColliding(player, actions[i])) {
+                    player.move(actions[i]);
+                }
             }
         }
     }
     player['stateId'] = stateId;
     return player;
 };
+
 GameController.prototype.isColliding = function(player, action) {
     var collides = false;
     var xToCheck = player.x;
@@ -93,7 +103,8 @@ GameController.prototype.isColliding = function(player, action) {
         }
     }
     return collides;
-}
+};
+
 GameController.prototype.getPlayerById = function (id) {
     var player = null;
 
@@ -109,5 +120,16 @@ GameController.prototype.getNewPlayerPosition = function () {
     //TODO: add normal coordinates from field provider
     return {x:0, y:0};
 };
+GameController.prototype.canPlaceBomb= function (player, bomb) {
+    //Check if place is not free
+    for (var i = 0; i < this.bombs.length; ++i) {
+        if (this.bombs[i].getX() == bomb.getX() && this.bombs[i].getY() == bomb.getY()) {
+            return false;
+        }
+    }
+    //TODO: Is not to freequent
+    return true;
 
+
+};
 module.exports = GameController;
