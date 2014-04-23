@@ -2,6 +2,8 @@
  * Created by coockoo on 4/15/14.
  */
 
+var Bomb = require('./bomb');
+
 function Player (player) {
     this.id = player.id;
     this.x = player.x || 0;
@@ -77,7 +79,27 @@ Player.prototype.setSpeed = function(speed) {
     this.speed = speed;
 };
 
-//TODO: getters/setters and other stuff;
+Player.prototype.newBomb = function (params) {
+    var playerX = this.getX();
+    var prevBlockX = Math.floor(playerX / 40) * 40;
+    var playerY = this.getY();
+    var prevBlockY = Math.floor(playerY / 40) * 40;
+    var x = prevBlockX;
+    var y = prevBlockY;
+    var dx = playerX - prevBlockX;
+    var dy = playerY - prevBlockY;
+    if (dx >= 20) {
+        x += 40;
+    }
+    if (dy >= 20) {
+        y += 40;
+    }
+    return new Bomb({
+        x: x,
+        y: y,
+        timestamp: params['timestamp']
+    });
+};
 
 module.exports = Player;
 

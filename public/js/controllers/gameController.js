@@ -37,16 +37,19 @@ GameController.prototype.init = function(params) {
                     //TODO: put here move resolve (possible or not). Collision detection
                     var actions = action.split('');
                     for (var i = 0; i < actions.length; ++i) {
+                        //TODO: if not space
                         if (!self.collides(self.player, actions[i])) {
                             this.player.move(actions[i]);
                             this.view.updatePlayer(this.player);
                         }
+                        //TODO: if space
                     }
                     var predictionState = this.predictionStorage.addState(this.player);
                     this.sendActionCallback && this.sendActionCallback({
                         action: action,
                         playerId: this.player.getId(),
-                        stateId: predictionState.id
+                        stateId: predictionState.id,
+                        timestamp: Date.now()
                     });
                 }
             }.bind(this), 1000 / 30);

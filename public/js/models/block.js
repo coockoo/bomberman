@@ -7,7 +7,6 @@ function Block (block) {
     this.y = block.y || 0;
     this.w = block.w || 40;
     this.h = block.h || 40;
-    console.log("here I am");
 };
 
 Block.prototype.getWidth = function() {
