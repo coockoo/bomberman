@@ -87,7 +87,7 @@ GameController.prototype.isColliding = function(player, action) {
         var blockY = this.field.blocks[i].getY();
         if( (
             /*point 1*/((xToCheck + player.w > blockX) && ((xToCheck + player.w) < (blockX + blockW)) && ((yToCheck + player.h > blockY) && (yToCheck < blockY + blockH))) ||
-            /*point 2*/(((xToCheck > blockX) && ((xToCheck) < (blockX + blockW))) && ((yToCheck + player.h > blockY) && (yToCheck < blockY + blockH))))) {
+            /*point 2*/(((xToCheck >= blockX) && ((xToCheck) < (blockX + blockW))) && ((yToCheck + player.h > blockY) && (yToCheck < blockY + blockH))))) {
             collides = true;
             return collides;
         }
