@@ -49,6 +49,12 @@ var FieldView =
             this.ctx.clearRect(bomb.x, bomb.y, bomb.w, bomb.h);
             this.ctx.closePath();
         };
+        this.removeBlock = function (block) {
+            this.ctx.beginPath();
+            this.ctx.clearRect(block.x, block.y, block.w, block.h);
+            this.ctx.closePath();
+
+        }
     };
 
 

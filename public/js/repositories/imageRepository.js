@@ -30,6 +30,7 @@ var ImageRepository = (function () {
 
             function onLoad () {
                 ++loaded;
+                console.log('images loaded: ', loaded, '/', total);
                 if (loaded == total) {
                     params.success && params.success();
                 }

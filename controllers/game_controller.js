@@ -12,11 +12,29 @@ function GameController (params) {
     this.bombs = [];
     this.bombTimer = setInterval(function () {
         var currentTime = Date.now();
+        var blocks = this.field.getBlocks();
         for (var i= 0; i < this.bombs.length; ++i) {
             //TODO: magic 3000 ms
             if(this.bombs[i].getTimestamp() + 3000 < currentTime) {
                 params.bombTimeoutCallback(this.bombs[i].toJSON());
-                this.bombs.splice(i, 1);
+                var bomb = this.bombs.splice(i, 1)[0];
+                for (var j = 0; j < blocks.length; ++j) {
+                    if ((bomb.getX() == blocks[j].getX()) &&
+                        (blocks[j].getY() >= (bomb.getY() - bomb.getRadius()*bomb.getWidth())) &&
+                        (blocks[j].getY() <= (bomb.getY() + bomb.getWidth() + bomb.getRadius()*bomb.getWidth()))
+                        ) {
+                        params.removeBlockCallback(blocks.splice(j, 1)[0]);
+                        j--;
+                    }
+                    if ((bomb.getY() == blocks[j].getY()) &&
+                        (blocks[j].getX() >= (bomb.getX() - bomb.getRadius()*bomb.getHeight())) &&
+                        (blocks[j].getX() <= (bomb.getX() + bomb.getHeight() + bomb.getRadius()*bomb.getHeight()))
+                        ) {
+                        params.removeBlockCallback(blocks.splice(j, 1)[0]);
+                        j--;
+                    }
+
+                }
                 --i;
             }
         }
@@ -24,6 +42,28 @@ function GameController (params) {
     }.bind(this), 1000 / 10)
 
 }
+/*
+GameController.prototype.detectExplodedObjects = function(bomb) {
+    var players = [];
+    var blocks = [];
+    var bombRadius = bomb.radius;
+    var bombX = ((bomb.x - bombRadius) >= 0) ? (bomb.x - bombRadius) : bomb.x;
+    var bombY = ((bomb.x + bombRadius) <= this.field.w) ? (bomb.x + bombRadius) : bomb.y;
+    //TODO fix bomb radius
+    var bombW = ((bombX + bomb.w + 2 * bombRadius) <= (this.field.x + this.field.w)) ? (bombX + bomb.w + 2 * bombRadius) : bombX + bomb.w;
+    var bombH = ((bombY + bomb.h + 2 * bombRadius) <= (this.field.y + this.field.h)) ? (bombY + bomb.h + 2 * bombRadius) : bombY + bomb.h;
+    for (var i = 0; i < this.players.length; i++) {
+        if () {
+
+        }
+    }
+
+    return {
+        players : players,
+        blocks : blocks
+    }
+}
+*/
 GameController.prototype.addPlayer = function () {
     var player = new Player({id: this.players.length + 1});
     player.setPosition(this.getNewPlayerPosition());

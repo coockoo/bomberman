@@ -2,7 +2,6 @@
  * Created by dashyki on 16.04.14.
  */
 var PlayerView = function(imageRepository, params) {
-    console.log(imageRepository);
     this.imageRepository = imageRepository;
     this.player = params.player;
     this.w = params.w;

@@ -69,4 +69,7 @@ View.prototype.addBomb = function (bomb) {
 View.prototype.explodeBomb = function (bomb) {
     this.fieldView.explodeBomb(bomb);
 };
+View.prototype.removeBlock = function (block) {
+    this.fieldView.removeBlock(block);
+};
 

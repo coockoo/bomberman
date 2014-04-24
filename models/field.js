@@ -18,6 +18,9 @@
             }
         }
     }
+    Field.prototype.getBlocks = function () {
+        return this.blocks;
+    };
 
     module.exports = Field;
 })();

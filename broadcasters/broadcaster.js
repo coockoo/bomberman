@@ -10,6 +10,9 @@ function Broadcaster (server) {
     this.controller = new Controller({
         bombTimeoutCallback: function (data) {
             this.io.sockets.emit('bomb explosion', JSON.stringify(data));
+        }.bind(this),
+        removeBlockCallback: function (data) {
+            this.io.sockets.emit('remove block', JSON.stringify(data))
         }.bind(this)
     });
 
@@ -37,7 +40,7 @@ Broadcaster.prototype.onAction = function (params) {
         var paramsObj = JSON.parse(params);
         var player = this.controller.makePlayerAction(paramsObj);
         this.io.sockets.emit('action', JSON.stringify(player));
-    }.bind(this), 500);
+    }.bind(this), 0);
 };
 
 Broadcaster.prototype.onDisconnect = function (socket) {

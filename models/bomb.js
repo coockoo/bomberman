@@ -28,7 +28,15 @@
         this.getTimestamp = function () {
             return timestamp;
         };
-
+        this.getRadius = function () {
+            return radius;
+        };
+        this.getWidth = function () {
+            return w;
+        };
+        this.getHeight = function () {
+            return h;
+        };
     }
 
     module.exports = Bomb;

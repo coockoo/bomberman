@@ -160,7 +160,10 @@ GameController.prototype.makePlayerAction = function(data) {
     return playerToUpdate;
 };
 GameController.prototype.bombExplosion = function (bomb) {
-    console.log(bomb);
     this.view.explodeBomb(bomb);
+
+};
+GameController.prototype.removeBlock = function (block) {
+    this.view.removeBlock(block);
 
 };
