@@ -7,7 +7,11 @@ var Controller = require('../controllers/game_controller');
 function Broadcaster (server) {
     this.server = server;
     this.io = require('socket.io').listen(server);
-    this.controller = new Controller();
+    this.controller = new Controller({
+        bombTimeoutCallback: function (data) {
+            this.io.sockets.emit('bomb explosion', JSON.stringify(data));
+        }.bind(this)
+    });
 
     // -- server state update timer
     this.timeStepTimer = null;
@@ -32,7 +36,6 @@ Broadcaster.prototype.onAction = function (params) {
     setTimeout(function () {
         var paramsObj = JSON.parse(params);
         var player = this.controller.makePlayerAction(paramsObj);
-        console.log('sending: ', player);
         this.io.sockets.emit('action', JSON.stringify(player));
     }.bind(this), 500);
 };

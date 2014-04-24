@@ -5,11 +5,23 @@
 var Player = require('../models/player');
 var FieldProvider = require('../resource_providers/field_provider');
 
-function GameController () {
+function GameController (params) {
     this.fieldProvider = new FieldProvider();
     this.field = this.fieldProvider.getField("field_01");
     this.players = [];
     this.bombs = [];
+    this.bombTimer = setInterval(function () {
+        var currentTime = Date.now();
+        for (var i= 0; i < this.bombs.length; ++i) {
+            //TODO: magic 3000 ms
+            if(this.bombs[i].getTimestamp() + 3000 < currentTime) {
+                params.bombTimeoutCallback(this.bombs[i].toJSON());
+                this.bombs.splice(i, 1);
+                --i;
+            }
+        }
+
+    }.bind(this), 1000 / 10)
 
 }
 GameController.prototype.addPlayer = function () {

@@ -10,10 +10,24 @@ View.prototype.init = function (params) {
     this.imageRepository.load({
         success: function () {
 
-            this.fieldView = new FieldView(this.imageRepository, params.field);
-
             this.w = params.field.getWidth();
             this.h = params.field.getHeight();
+
+            var $html = $('<canvas width=":w" height=":h" id="background">Your browser does not support canvas.</canvas>'
+                .replace(":w", this.w)
+                .replace(":h", this.h)
+            );
+
+            $(".container").append($html);
+
+            var ctx = $html[0].getContext('2d');
+            ctx.strokeRect(0,0, this.w, this.h);
+
+            ctx.fillStyle = ctx.createPattern(this.imageRepository.getImageById('background'), 'repeat');
+            ctx.fillRect(0,0,this.w, this.h);
+
+            this.fieldView = new FieldView(this.imageRepository, params.field);
+
 
             params.success && params.success();
 
@@ -51,5 +65,8 @@ View.prototype.updatePlayer = function (player) {
 };
 View.prototype.addBomb = function (bomb) {
     this.fieldView.addBomb(bomb);
+};
+View.prototype.explodeBomb = function (bomb) {
+    this.fieldView.explodeBomb(bomb);
 };
 

@@ -34,15 +34,18 @@ GameController.prototype.init = function(params) {
             this.keyTimer = setInterval(function () {
                 var action = this.keyHandler.getCurrentAction();
                 if (action.length != 0) {
-                    //TODO: put here move resolve (possible or not). Collision detection
                     var actions = action.split('');
                     for (var i = 0; i < actions.length; ++i) {
-                        //TODO: if not space
-                        if (!self.collides(self.player, actions[i])) {
-                            this.player.move(actions[i]);
-                            this.view.updatePlayer(this.player);
+                        if (actions[i] != 's') {
+                            // -- if not space
+                            if (!self.collides(self.player, actions[i])) {
+                                this.player.move(actions[i]);
+                                this.view.updatePlayer(this.player);
+                            }
+                        } else {
+                            // TODO: if space
+
                         }
-                        //TODO: if space
                     }
                     var predictionState = this.predictionStorage.addState(this.player);
                     this.sendActionCallback && this.sendActionCallback({
@@ -155,4 +158,9 @@ GameController.prototype.makePlayerAction = function(data) {
 
     //TODO: what to do with return?
     return playerToUpdate;
+};
+GameController.prototype.bombExplosion = function (bomb) {
+    console.log(bomb);
+    this.view.explodeBomb(bomb);
+
 };
