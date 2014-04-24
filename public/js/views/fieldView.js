@@ -41,8 +41,7 @@ var FieldView =
 
         this.addBomb = function (bomb) {
             this.ctx.beginPath();
-            this.ctx.fillStyle = '#8ED600';
-            this.ctx.fillRect(bomb.getX(), bomb.getY(), 40,40);
+            this.ctx.drawImage(imageRepository.getImageById('bomb'), bomb.getX(), bomb.getY(), bomb.getWidth(), bomb.getHeight());
             this.ctx.closePath();
         };
         this.explodeBomb = function (bomb) {

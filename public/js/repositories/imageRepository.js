@@ -9,7 +9,7 @@ var ImageRepository = (function () {
         this.load = function (params) {
             //TODO: move hard code to config file
             var loaded = 0;
-            var total = 2;
+            var total = 4;
             this.images = {};
 
             this.images['block_breakable'] = new Image();
@@ -19,6 +19,14 @@ var ImageRepository = (function () {
             this.images['background'] = new Image();
             this.images['background'].src = 'images/background.png';
             this.images['background'].onload = onLoad;
+
+            this.images['player'] = new Image();
+            this.images['player'].src = 'images/player.png';
+            this.images['player'].onload = onLoad;
+
+            this.images['bomb'] = new Image();
+            this.images['bomb'].src = 'images/bomb.png';
+            this.images['bomb'].onload = onLoad;
 
             function onLoad () {
                 ++loaded;

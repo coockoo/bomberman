@@ -10,7 +10,7 @@ function Player (player) {
     this.y = player.y || 0;
     this.w = player.w || 40;
     this.h = player.h || 40;
-    this.speed = player.speed || 1;
+    this.speed = player.speed || 2;
 }
 Player.prototype.setId = function (id) {
     this.id = id;

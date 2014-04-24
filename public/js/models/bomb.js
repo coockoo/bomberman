@@ -21,6 +21,12 @@ function () {
         this.getY = function () {
             return y;
         };
+        this.getWidth = function () {
+            return w;
+        };
+        this.getHeight = function () {
+            return h;
+        };
         this.toJSON = function () {
             return {id: id, x: x, y: y, w: w, h: h, timestamp: timestamp, radius: radius};
         };

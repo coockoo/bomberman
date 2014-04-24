@@ -1,7 +1,9 @@
 /**
  * Created by dashyki on 16.04.14.
  */
-var PlayerView = function(params) {
+var PlayerView = function(imageRepository, params) {
+    console.log(imageRepository);
+    this.imageRepository = imageRepository;
     this.player = params.player;
     this.w = params.w;
     this.h = params.h;
@@ -10,9 +12,7 @@ var PlayerView = function(params) {
 (function () {
     function drawPlayer (ctx, player) {
         ctx.beginPath();
-        ctx.fillStyle = '#8ED6FF';
-        ctx.rect(player.getX(), player.getY(), player.getWidth(), player.getHeight());
-        ctx.fill();
+        ctx.drawImage(this.imageRepository.getImageById('player'), player.getX(), player.getY(), player.getWidth(), player.getHeight());
         ctx.closePath();
     }
 
@@ -28,12 +28,12 @@ var PlayerView = function(params) {
         $(".container").append(this.$html);
         this.ctx = this.$html[0].getContext('2d');
 
-        drawPlayer(this.ctx, this.player);
+        drawPlayer.call(this, this.ctx, this.player);
     };
     PlayerView.prototype.update = function (player) {
         this.ctx.clearRect(0,0,this.w,this.h);
 
-        drawPlayer(this.ctx, player);
+        drawPlayer.call(this, this.ctx, player);
     };
     PlayerView.prototype.remove = function () {
         this.$html.remove();

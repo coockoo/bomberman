@@ -40,7 +40,7 @@ View.prototype.init = function (params) {
 
 };
 View.prototype.addPlayer = function (player) {
-    this.playerViews.push(new PlayerView({
+    this.playerViews.push(new PlayerView(this.imageRepository, {
         player: player,
         w: this.w,
         h: this.h
